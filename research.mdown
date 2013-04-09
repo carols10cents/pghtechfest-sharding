@@ -2,3 +2,4 @@
 * Sizes of our database before, shards after, shards today
 * Could un-shard and run performance tests for comparison...?
 * Growth we saw in december, projected through april (and show actual?)
+* Subsets of our schema diagram

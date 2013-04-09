@@ -57,7 +57,7 @@
 * Development - reloading, production db mirrors
 * Backups - now you have to backup all the dbs!
 * GUIDs
-* How to distribute data
+* How to distribute data - uneven distribution by customer, so we did by school
 * Moving data between shards
 * Splitting shards
 * Deployment is more complicated
@@ -77,6 +77,13 @@
 
 * Probably not at that point in time.
 * Best case would be to have analytics to prove that the db is the bottleneck.
+
+## Future plans
+
+* Data warehouse - archive large amts of data. After that-- de-shard?
+* SOA
+* Be able to shard by customer so that moving student data is trivial
+* Geographic colocation
 
 # Resources
 
