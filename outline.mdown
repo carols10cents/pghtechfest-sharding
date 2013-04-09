@@ -1,0 +1,89 @@
+# Sharding your Rails Database
+## (not sharting)
+
+## Our situation
+
+* Hockey stick growth wooo!
+* Expected continued growth
+* Limited window for updates
+* Performance issues, cause of which were unknown
+* Database was getting super big -- > mecha!
+
+## Other things to do to address these issues instead of sharding
+
+* Caching
+* SQL query optimization
+* Individual action performance tuning
+* Archiving data
+* Begging Heroku for help/configuration/bigger dbs or dynos
+* More hardware
+
+## Why did we choose sharding?
+
+* The Nuclear Option
+* Best chance with the window available to provide the biggest bang for our buck, give us the most space to grow
+* Many smaller databases instead of one big one
+* Scaling to infinity and beyond (theoretically)
+  * Ideally, route requests to particular shards
+
+## What is sharding?
+
+* Horizontal
+* Vertical
+* Which do you do? It depends! Every app is different.
+* We did both!
+  * Explain our data model
+
+  * Things students do (math problems)
+  * Math Content, needs to be joined with student activity
+  * Accounts, roles, stuff that doesn't grow and doesn't need to be joined with student activity
+
+## Method of sharding in rails
+
+* db-charmer gem
+  * Switches around the ActiveRecord connection.
+  * associations - once you know what shard one thing is on, it should be automatic to know what shard associated objects are on but it wasnt
+  * Request store for fallback resolver
+* If vertical only, you can use rails' establish_connection.
+* Other choices... all seem like whoever wrote them got to whatever support they needed and stopped.
+* Had to sell to business that we were doing this instead of features
+* Had to stop content editing
+
+## Problems with sharding
+
+* Queries that need data from > 1 shard will be slow
+* All the dynos connecting to all the shards
+* Tests - factories
+* Development - reloading, production db mirrors
+* Backups - now you have to backup all the dbs!
+* GUIDs
+* How to distribute data
+* Moving data between shards
+* Splitting shards
+* Deployment is more complicated
+* Migrations
+* Reports
+* Monitoring
+* rake db:* expected one db
+
+## Did it help our performance issues?
+
+* Not really. Sharding probably amplified the effect of optimizations done right after sharding, though.
+* It helped with the database size.
+* Real performance bottleneck was heroku random routing.
+* Might be good for us for the future.
+
+## Would we do it again?
+
+* Probably not at that point in time.
+* Best case would be to have analytics to prove that the db is the bottleneck.
+
+# Resources
+
+* http://eng.yammer.com/sharding-a-large-rails-app/
+* http://instagram-engineering.tumblr.com/post/40781627982/handling-growth-with-postgres-5-tips-from-instagram
+* Craig Kersteins' post
+
+
+# Out of scope
+* Replication
