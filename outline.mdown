@@ -65,6 +65,10 @@
 * Reports
 * Monitoring
 * rake db:* expected one db
+* db-charmer not threadsafe; sidekiq MUST be CONCURRENCY=1
+* All your libraries assume one database so they never cleanup
+  connections (had to create custom sidekiq middleware to cleanup
+  old connection)
 
 ## Did it help our performance issues?
 
