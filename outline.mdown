@@ -56,7 +56,8 @@
 * Tests - factories
 * Development - reloading, production db mirrors
 * Backups - now you have to backup all the dbs!
-* GUIDs
+* GUIDs (or the general idea of generating unique IDs)
+* Relations (now four types: master-to-master, shard-to-shard, master-to-shard, shard-to-master)
 * How to distribute data - uneven distribution by customer, so we did by school
 * Moving data between shards
 * Splitting shards
@@ -68,7 +69,7 @@
 * db-charmer not threadsafe; sidekiq MUST be CONCURRENCY=1
 * All your libraries assume one database so they never cleanup
   connections (had to create custom sidekiq middleware to cleanup
-  old connection)
+  sticky connection)
 
 ## Did it help our performance issues?
 
@@ -85,7 +86,7 @@
 ## Future plans
 
 * Data warehouse - archive large amts of data. After that-- de-shard?
-* SOA
+* SOA Amazon-style
 * Be able to shard by customer so that moving student data is trivial
 * Geographic colocation
 
@@ -93,8 +94,9 @@
 
 * http://eng.yammer.com/sharding-a-large-rails-app/
 * http://instagram-engineering.tumblr.com/post/40781627982/handling-growth-with-postgres-5-tips-from-instagram
-* Craig Kersteins' post
-
+* Craig Kerstiens' post
+  * http://www.craigkerstiens.com/2012/11/30/sharding-your-database/
 
 # Out of scope
+
 * Replication
