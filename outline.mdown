@@ -1,75 +1,117 @@
 # Sharding your Rails Database
 ## (not sharting)
 
+
+## Visual ideas
+
+* Heroku pseudoslider
+* Choose your own adventure
+
 ## Our situation
 
+* Helping kids do math is awesome! (screenshots?)
 * Hockey stick growth wooo!
-* Expected continued growth
-* Limited window for updates
+* Expected accelerated growth
+* Limited window for updates (xmas)
 * Performance issues, cause of which were unknown
 * Database was getting super big -- > mecha!
-
-## Other things to do to address these issues instead of sharding
-
-* Caching
-* SQL query optimization
-* Individual action performance tuning
-* Archiving data
-* Begging Heroku for help/configuration/bigger dbs or dynos
-* More hardware
-
-## Why did we choose sharding?
-
-* The Nuclear Option
-* Best chance with the window available to provide the biggest bang for our buck, give us the most space to grow
-* Many smaller databases instead of one big one
-* Scaling to infinity and beyond (theoretically)
-  * Ideally, route requests to particular shards
 
 ## What is sharding?
 
 * Horizontal
 * Vertical
-* Which do you do? It depends! Every app is different.
+* Which do you do? It depends! Every app is different (more in a sec)
 * We did both!
-  * Explain our data model
-
+  * Handwave over data model
   * Things students do (math problems)
-  * Math Content, needs to be joined with student activity
+  * Math content (more in a sec)
   * Accounts, roles, stuff that doesn't grow and doesn't need to be joined with student activity
+
+## Your special snowflake application
+
+* How to distribute data - uneven distribution by customer, so we did by school
+* For example: Math Content, needs to be joined with student activity
+  but edited once
+* How many times to distribute: if you only need 4 (like us) do you
+  really need sharding?
+
+## Themes
+
+* Development
+* Deployment + maintenance
+* Reporting (proxy for user stuff)
+
+
+# Development
+
+* Big cost up front, then not as much
 
 ## Method of sharding in rails
 
 * db-charmer gem
   * Switches around the ActiveRecord connection.
-  * associations - once you know what shard one thing is on, it should be automatic to know what shard associated objects are on but it wasnt
+  * associations - once you know what shard one thing is on, it should
+    be automatic to know what shard associated objects are on but it
+    wasn't
   * Request store for fallback resolver
 * If vertical only, you can use rails' establish_connection.
-* Other choices... all seem like whoever wrote them got to whatever support they needed and stopped.
+* Other choices... all seem like whoever wrote them got to whatever
+  support they needed and stopped.
 * Had to sell to business that we were doing this instead of features
 * Had to stop content editing
 
-## Problems with sharding
+## Issues
 
-* Queries that need data from > 1 shard will be slow
-* All the dynos connecting to all the shards
+* ...but migrations!
+* Dev environment gets sharded too, as close as possible to prod
+  (but how much did this help?? maybe just mental?)
+* Relations (now four types: master-to-master, shard-to-shard, master-to-shard, shard-to-master)
 * Tests - factories
 * Development - reloading, production db mirrors
-* Backups - now you have to backup all the dbs!
 * GUIDs (or the general idea of generating unique IDs)
-* Relations (now four types: master-to-master, shard-to-shard, master-to-shard, shard-to-master)
-* How to distribute data - uneven distribution by customer, so we did by school
 * Moving data between shards
-* Splitting shards
-* Deployment is more complicated
-* Migrations
-* Reports
-* Monitoring
 * rake db:* expected one db
 * db-charmer not threadsafe; sidekiq MUST be CONCURRENCY=1
 * All your libraries assume one database so they never cleanup
   connections (had to create custom sidekiq middleware to cleanup
   sticky connection)
+
+## Testing
+
+* factories
+
+
+# Deployment + maintenance
+  * Constant pain
+  * 'rails console' hack for picking a random shard (YOU ALWAYS HAVE TO DO THIS)
+
+## Issues
+
+* Queries that need data from > 1 shard will be slow
+* All the dynos connecting to all the shards (connection limits?)
+* Backups - now you have to backup all the dbs!
+* Splitting shards (if one gets too big, how to create more)
+* Monitoring
+* All your services assume one database too (Heroku
+  DATABASE_URL + buildpack hacking)
+* Migrations (those that alter lots of data WILL STILL ALTER LOTS OF
+  DATA, can you parallelize?)
+
+
+# Reporting (proxy for user stuff)
+
+  * If this is your real problem, maybe look into a data warehouse?
+  * ...but this takes more time than sharding
+  * ...also more of a change to your data and how you think about it
+  * ...and for DW to be a fix, you need to archive data (WHICH IS
+    SCARY, and maybe not even possible in some industries)
+
+## And now...?
+
+* Desharding! Fixes like DW can let you catch up, archive data, and
+  not need shards anymore.
+* Because we did the ID work, this should be easy! (in theory...)
+* ...back to normal Rails land. (Do you rip out all the sharding breadcrumbs?)
 
 ## Did it help our performance issues?
 
@@ -90,12 +132,36 @@
 * Be able to shard by customer so that moving student data is trivial
 * Geographic colocation
 
+----------------------------------------
+
+## Other things to do to address these issues instead of sharding
+
+* Caching
+* SQL query optimization
+* Individual action performance tuning
+* Archiving data
+* Begging Heroku for help/configuration/bigger dbs or dynos
+* More + better-used hardware
+
+## Why did we choose sharding?
+
+* The Nuclear Option
+* Best chance with the window available to provide the biggest bang for our buck, give us the most space to grow
+* Many smaller databases instead of one big one
+* Scaling to infinity and beyond (theoretically)
+  * Ideally, route requests to particular shards
+
+## Lingo
+
+* "Vertical partition" <=> "Master shard"
+
 # Resources
 
 * http://eng.yammer.com/sharding-a-large-rails-app/
 * http://instagram-engineering.tumblr.com/post/40781627982/handling-growth-with-postgres-5-tips-from-instagram
 * Craig Kerstiens' post
   * http://www.craigkerstiens.com/2012/11/30/sharding-your-database/
+* Werner Vogels podcast on Amazon SOA
 
 # Out of scope
 

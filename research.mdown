@@ -1,5 +1,20 @@
-* Performance stats before and after
-* Sizes of our database before, shards after, shards today
-* Could un-shard and run performance tests for comparison...?
-* Growth we saw in december, projected through april (and show actual?)
+Carol:
+
 * Subsets of our schema diagram
+* Performance stats before and after
+* Growth we saw in december, projected through april (and show actual?)
+
+Chris:
+
+* Sizes of our database before, shards after, shards today
+* Performance stats before and after
+* Growth we saw in december, projected through april (and show actual?)
+
+
+Nobody:
+
+* Could un-shard and run performance tests for comparison...?
+
+Tech junk:
+
+* DeckJS for slides
