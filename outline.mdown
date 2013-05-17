@@ -1,6 +1,14 @@
 # Sharding your Rails Database
 ## (not sharting)
 
+## Overview
+
+5 min - our situation
+5 min - what is sharding?
+5 min - development
+5 min - deployment/maintenance
+5 min - reporting/end user impact
+5 min - results
 
 ## Visual ideas
 
