@@ -1,7 +1,16 @@
 # Sharding your Rails Database
+
 ## (not sharting)
 
+##
+
 ## Overview
+
+* Why did we do this?
+* What did we do?
+* Would we do it again?
+
+----
 
 5 min - our situation
 5 min - what is sharding?
@@ -19,7 +28,7 @@
 
 * Helping kids do math is awesome! (screenshots?)
 * Hockey stick growth wooo!
-* Expected accelerated growth
+* Expected accelerated growth made everyone crazy
 * Limited window for updates (xmas)
 * Performance issues, cause of which were unknown
 * Database was getting super big -- > mecha!
@@ -28,120 +37,151 @@
 
 * Horizontal
 * Vertical
-* Which do you do? It depends! Every app is different (more in a sec)
-* We did both!
-  * Handwave over data model
-  * Things students do (math problems)
-  * Math content (more in a sec)
-  * Accounts, roles, stuff that doesn't grow and doesn't need to be joined with student activity
+* Use the 'one table' metaphor
+  * Horizontal: split by rows (pictures**)
+  * Vertical: split by columns (pictures**)
+* We did both! (user data [small] connecting to student activity data
+  [HUGE] connecting to math content [small])
 
 ## Your special snowflake application
 
-* How to distribute data - uneven distribution by customer, so we did by school
-* For example: Math Content, needs to be joined with student activity
-  but edited once
+* Everybody is a different snowflake
+   * Yammer did it like this (pictures**)
+   * Instragram did it like this (pictures**)
+   * TTM did it like this (pictures**)
+* Main point: they're ALL DIFFERENT
+* You have to spend time on this part, and it will be more time than
+  you think. (Even when taking into account Hofstadter's Law)
 * How many times to distribute: if you only need 4 (like us) do you
   really need sharding?
 
-## Themes
+## What should you do instead?
 
-* Development
-* Deployment + maintenance
-* Reporting (proxy for user stuff)
-
+* Can you archive data? Moving data to read-only solutions can be a
+  reliable fix.
+  * But it's scary, and maybe not even possible in some industries)
+* Normal optimization -- N+1 queries, long SQL queries (boring but effective)
+* Caching (it's hard too, but less drastic)
+* More hardware! It's really fast now!
+* Not virtualization (databases I/O bound)
+* If this is your real problem, maybe look into a data warehouse?
+  * ...but this takes more time than sharding
+  * ...also more of a change to your data and how you think about it
 
 # Development
 
 * Big cost up front, then not as much
+* Upfront cost: the part we said would take a long time, learning to
+  think in shards, customizing DB Charmer
 
 ## Method of sharding in rails
 
-* db-charmer gem
+* If vertical only, you can use AR `establish_connection`
+* db-charmer gem (show before/after of model with DSL)
   * Switches around the ActiveRecord connection.
+* Customizations:
   * associations - once you know what shard one thing is on, it should
     be automatic to know what shard associated objects are on but it
     wasn't
-  * Request store for fallback resolver
-* If vertical only, you can use rails' establish_connection.
+    * Relations (now four types: master-to-master, shard-to-shard,
+      master-to-shard, shard-to-master - yay AR for having hooks to
+      make this fairly easy)
+  * Request store for fallback resolver (we should commit this, sorry)
 * Other choices... all seem like whoever wrote them got to whatever
   support they needed and stopped.
-* Had to sell to business that we were doing this instead of features
-* Had to stop content editing
 * Cutover process
 
-## Issues
+## Talking point issues
 
-* ...but migrations!
+* GUIDs (or the general idea of generating unique IDs, important as
+  illustration of something you take for granted right now that you
+  need to change OR ELSE)
+* All your libraries + rake tasks assume one database so they never
+  cleanup connections (had to create custom sidekiq middleware to
+  cleanup sticky connection)
+
+## Beat them over the head issues
+(pictures as bursts**)
 * Dev environment gets sharded too, as close as possible to prod
   (but how much did this help?? maybe just mental?)
-* Relations (now four types: master-to-master, shard-to-shard, master-to-shard, shard-to-master)
+* ...migrations! (dbcharmer has built-in, but still tricky)
 * Tests - factories
 * Development - reloading, production db mirrors
-* GUIDs (or the general idea of generating unique IDs)
 * Moving data between shards
 * rake db:* expected one db
 * db-charmer not threadsafe; sidekiq MUST be CONCURRENCY=1
-* All your libraries assume one database so they never cleanup
-  connections (had to create custom sidekiq middleware to cleanup
-  sticky connection)
-
-## Testing
-
-* factories
-
 
 # Deployment + maintenance
   * Constant pain
   * 'rails console' hack for picking a random shard (YOU ALWAYS HAVE TO DO THIS)
 
-## Issues
+## Talking point issues
 
-* Queries that need data from > 1 shard will be slow
+* All your services assume one database too (Heroku
+  DATABASE_URL + buildpack hacking)
+* Queries that need data from > 1 shard will be slow (rewriting left
+  joins in code)
+* Migrations (those that alter lots of data WILL STILL ALTER LOTS OF
+  DATA, can you parallelize?)
+
+## Beat them over the head issues
+(pictures as bursts**)
 * All the dynos connecting to all the shards (connection limits?)
 * Backups - now you have to backup all the dbs!
 * Splitting shards (if one gets too big, how to create more)
 * Monitoring
-* All your services assume one database too (Heroku
-  DATABASE_URL + buildpack hacking)
-* Migrations (those that alter lots of data WILL STILL ALTER LOTS OF
-  DATA, can you parallelize?)
+* Logging
 
-
-# Reporting (proxy for user stuff)
-
-  * If this is your real problem, maybe look into a data warehouse?
-  * ...but this takes more time than sharding
-  * ...also more of a change to your data and how you think about it
-  * ...and for DW to be a fix, you need to archive data (WHICH IS
-    SCARY, and maybe not even possible in some industries)
+# Results
 
 ## And now...?
 
-* Desharding! Fixes like DW can let you catch up, archive data, and
-  not need shards anymore.
-* Because we did the ID work, this should be easy! (in theory...)
-* ...back to normal Rails land. (Do you rip out all the sharding breadcrumbs?)
+* Did expected growth happen? YES. (pictures**)
 
 ## Did it help our performance issues?
 
-* Not really. Sharding probably amplified the effect of optimizations done right after sharding, though.
+* Not really. Sharding probably amplified the effect of optimizations
+  done right after sharding
 * It helped with the database size.
-* Real performance bottleneck was heroku random routing.
+* Real performance bottleneck was heroku random routing in vicious
+  cycle with our slow controllers
 * Might be good for us for the future.
 
-## Would we do it again?
+## Side-effects
 
-* Probably not at that point in time.
-* Best case would be to have analytics to prove that the db is the bottleneck.
+* Had to build a DW anyway (fast for DW, but still slower)
 
 ## Future plans
 
-* Data warehouse - archive large amts of data. After that-- de-shard?
+* Desharding! Fixes like DW can let you catch up, archive data, and
+  not need shards anymore.
+  * Because we did the ID work, this should be easy! (in theory...)
+  * ...back to normal Rails land. (Do you rip out all the sharding breadcrumbs?)
 * SOA Amazon-style
-* Be able to shard by customer so that moving student data is trivial
-* Geographic colocation
+* Less fragile sharding schemes so that moving student data is easier
+* Geographic colocation (possibility if we de-shard)
+
+## Would we do it again with 20/20 hindsight?
+
+* No -- optimize first and iterate
+* Knowing that the hockey stick wasn't forever we didn't need THAT
+  much more ceiling
+* Best case would be to have analytics to prove that the db  the
+  bottleneck.
+
+## Should you do it?
+
+* Almost certainly not.
+* Definitely not out of the gate.
+* Your special snowflakeness will override any technology choices.
+* Good luck!
 
 ----------------------------------------
+
+## What do normal humans think
+
+* Had to sell to business that we were doing this instead of features
+* Had to stop content editing
 
 ## Other things to do to address these issues instead of sharding
 
@@ -155,7 +195,8 @@
 ## Why did we choose sharding?
 
 * The Nuclear Option
-* Best chance with the window available to provide the biggest bang for our buck, give us the most space to grow
+* Best chance with the window available to provide the biggest bang
+  for our buck, give us the most space to grow
 * Many smaller databases instead of one big one
 * Scaling to infinity and beyond (theoretically)
   * Ideally, route requests to particular shards
