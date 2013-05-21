@@ -26,6 +26,8 @@
 
 ## Our situation
 
+CN
+
 * Helping kids do math is awesome! (screenshots?)
 * Hockey stick growth wooo!
 * Expected accelerated growth made everyone crazy
@@ -34,6 +36,8 @@
 * Database was getting super big -- > mecha!
 
 ## What is sharding?
+
+CMW
 
 * Horizontal
 * Vertical
@@ -76,6 +80,8 @@
 
 ## Method of sharding in rails
 
+CMW
+
 * If vertical only, you can use AR `establish_connection`
 * db-charmer gem (show before/after of model with DSL)
   * Switches around the ActiveRecord connection.
@@ -101,6 +107,9 @@
   cleanup sticky connection)
 
 ## Beat them over the head issues
+
+CMW
+
 (pictures as bursts**)
 * Dev environment gets sharded too, as close as possible to prod
   (but how much did this help?? maybe just mental?)
@@ -133,6 +142,8 @@
 * Logging
 
 # Results
+
+CN
 
 ## And now...?
 
