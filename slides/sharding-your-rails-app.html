@@ -120,11 +120,66 @@
 </section>
 
 <section class="slide">
+  <h2>Yammer's data model</h2>
+</section>
+
+<section class="slide">
+  <h2>Instagram's data model</h2>
+</section>
+
+<section class="slide snowflake">
+  <h1>Every application is different.</h1>
+</section>
+
+<section class="slide">
   <h1>Development</h1>
 </section>
 
 <section class="slide">
+  <h2>In Rails</h2>
+  <ul>
+    <li>We used the db-charmer gem. Alternatives:
+      <ul>
+        <li>octopus gem</li>
+        <li>vertical only: ActiveRecord's establish_connection</li>
+      </ul>
+    </li>
+    <li>With some customizations
+      <ul>
+        <li>RequestStore</li>
+        <li>has_many_in_shard, etc</li>
+      </ul>
+    </li>
+  </ul>
+</section>
+
+<section class="slide">
+  code sample - before and after db-charmer
+
+  * db_magic
+  * has_many_in_shard
+</section>
+
+<section class="slide">
+  <h2>Many, many issues</h2>
+  <ul>
+    <li>Relations (now four types: master-to-master, shard-to-shard, master-to-shard, shard-to-master)</li>
+    <li>Migrations</li>
+    <li>Tests - factories</li>
+    <li>Development environment - reloading, production db mirrors</li>
+    <li>GUIDs</li>
+    <li>Moving data between shards</li>
+    <li>rake db:* expected one db</li>
+    <li>threadsafety</li>
+    <li>All your libraries assume one database</li>
+  </ul>
+</section>
+
+<section class="slide">
   <h1>Deployment</h1>
+</section>
+
+<section class="slide">
 </section>
 
 <section class="slide">
