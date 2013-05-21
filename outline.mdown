@@ -67,6 +67,7 @@
   support they needed and stopped.
 * Had to sell to business that we were doing this instead of features
 * Had to stop content editing
+* Cutover process
 
 ## Issues
 
@@ -167,9 +168,11 @@
 
 * http://eng.yammer.com/sharding-a-large-rails-app/
 * http://instagram-engineering.tumblr.com/post/40781627982/handling-growth-with-postgres-5-tips-from-instagram
+* http://instagram-engineering.tumblr.com/post/10853187575/sharding-ids-at-instagram
 * Craig Kerstiens' post
   * http://www.craigkerstiens.com/2012/11/30/sharding-your-database/
 * Werner Vogels podcast on Amazon SOA
+  * http://www.se-radio.net/2006/12/episode-40-interview-werner-vogels/
 
 # Out of scope
 
