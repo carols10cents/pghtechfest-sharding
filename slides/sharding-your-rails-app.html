@@ -41,18 +41,12 @@
   </div>
 </section>
 
-<section class="slide">
+<section class="slide outline">
+  <h2>Sharding</h2>
   <ul>
-    <li>Background</li>
-    <li>What is sharding?</li>
-    <li>How sharding affects:
-      <ul>
-        <li>Development</li>
-        <li>Deployment</li>
-        <li>Using Data</li>
-      </ul>
-    </li>
-    <li>Results</li>
+    <li>Why did we do this?</li>
+    <li>What did we do?</li>
+    <li>Would we do it again?</li>
   </ul>
 </section>
 
@@ -78,7 +72,7 @@
 
 <section class="slide">
   <h2>Database size getting big</h2>
-  insert big cylinder
+  insert big cylinder - with numbers
 </section>
 
 <section class="slide">
@@ -92,6 +86,15 @@
 
 <section class="slide">
   <h1>Shard!</h1>
+</section>
+
+<section class="slide outline">
+  <h2>Sharding</h2>
+  <ul>
+    <li>Why did we do this?</li>
+    <li class="current">What did we do?</li>
+    <li>Would we do it again?</li>
+  </ul>
 </section>
 
 <section class="slide">
@@ -179,15 +182,72 @@
   <h1>Deployment</h1>
 </section>
 
-<section class="slide">
+
+<section class="slide outline">
+  <h2>Sharding</h2>
+  <ul>
+    <li>Why did we do this?</li>
+    <li>What did we do?</li>
+    <li class="current">Would we do it again?</li>
+  </ul>
 </section>
 
 <section class="slide">
-  <h1>Using Data</h1>
+  <h2>Expected growth happened</h2>
+  insert graph here
 </section>
+
+<section class="slide">
+  <h2>Database size is now reasonable (x5)</h2>
+</section>
+
+<section class="slide">
+  <h2>Performance is better*</h2>
+  insert newrelic here
+  <div class="caveat">* Database wasn't the REAL bottleneck</div>
+</section>
+
+<section class="slide">
+  <h2>Building now: Data Warehouse</h2>
+  <ul>
+    <li>Benefits: archiving data out of the write-heavy app, faster queries for reporting</li>
+    <li>This is taking longer than sharding did, so would not have helped in our window</li>
+    <li>... but we need it anyway for better reports.</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Would we do it again, with 20/20 hindsight?</h2>
+  <h1>No.</h1>
+</section>
+
+<section class="slide">
+  <h2>Would we do it again, with 20/20 hindsight?</h2>
+  <ul>
+    <li>Normal rails land >>> sharded rails land</li>
+    <li>We didn't really need THAT much more ceiling.</li>
+    <li>Optimizing and iterating probably would have been enough.</li>
+    <li>We didn't have proof the database was the bottleneck</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Should you shard your rails app's DB?</h2>
+  <ul>
+    <li>Almost certainly not.</li>
+    <li>Not until the size of data absolutely necessitates it (aka not when you first start).</li>
+    <li>Your special snowflakeness will override any technology choices.</li>
+    <li>... Good luck!</li>
+  </ul>
+</section>
+
 
 
 <!-- End slides. -->
+<!--
+<section class="slide">
+</section>
+-->
 
 
 <!-- Begin extension snippets. Add or remove as needed. -->
