@@ -1,0 +1,10 @@
+.slide ul {
+  font-size: 48px;
+}
+
+.slide.sharting {
+  background: #DCC5E5;
+  font-family: 'Apple Chancery';
+  font-size: 18px;
+  line-height: 2;
+}
