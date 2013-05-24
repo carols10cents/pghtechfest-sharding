@@ -141,41 +141,83 @@
 </section>
 
 <section class="slide">
-  <h2>In Rails</h2>
+  <h2>We used db-charmer</h2>
   <ul>
-    <li>We used the db-charmer gem. Alternatives:
+    <li>There are alternatives:
       <ul>
         <li>octopus gem</li>
         <li>vertical only: ActiveRecord's establish_connection</li>
-      </ul>
-    </li>
-    <li>With some customizations
-      <ul>
-        <li>RequestStore</li>
-        <li>has_many_in_shard, etc</li>
       </ul>
     </li>
   </ul>
 </section>
 
 <section class="slide">
-  code sample - before and after db-charmer
+  <h2>Before db-charmer</h2>
+  <img src="images/enrollment_no_magic.png" />
 
-  * db_magic
-  * has_many_in_shard
 </section>
 
 <section class="slide">
-  <h2>Many, many issues</h2>
+  <h2>After db-charmer</h2>
+  <img src="images/enrollment_magic_db_charmer.png" />
+</section>
+
+<section class="slide">
+  <h2>...with some customizations</h2>
   <ul>
-    <li>Relations (now four types: master-to-master, shard-to-shard, master-to-shard, shard-to-master)</li>
-    <li>Migrations</li>
+    <li>Rack middleware to cleanup</li>
+    <li>RequestStore: implicit shard use</li>
+    <li>Coordinating IDs</li>
+    <li>Shard associations</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Coordinating IDs</h2>
+  <ul>
+    <li>Sequence-per-table won't work anymore</li>
+    <li>Solution: use sequence on master for all</li>
+    <li>Another: GUIDs - no SPF, but not for humans</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Coordinating IDs</h2>
+  <img src="images/enrollment_magic_ids.png" />
+</section>
+
+<section class="slide">
+  <h2>Shard associations</h2>
+  <ul>
+    <li>db-charmer has no support for associations</li>
+    <li>OK: shard-to-master</li>
+    <li>NOT: master-to-shard, shard-to-shard</li>
+    <li>Solution: explicit wrapper with passthrough for AR</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Shard associations</h2>
+  <img src="images/enrollment_magic_associations.png" />
+</section>
+
+<section class="slide">
+  <h2>Many other issues</h2>
+  <ul>
+    <li>Migrations: OK, but parallel needed for some</li>
     <li>Tests - factories</li>
-    <li>Development environment - reloading, production db mirrors</li>
-    <li>GUIDs</li>
+    <li>Development: reloading, keep in sync!</li>
+    <li>Development: code reloading broke!</li>
+  </ul>
+</section>
+
+<section class="slide">
+  <h2>Many other issues</h2>
+  <ul>
     <li>Moving data between shards</li>
     <li>rake db:* expected one db</li>
-    <li>threadsafety</li>
+    <li>NOT: threadsafe</li>
     <li>All your libraries assume one database</li>
   </ul>
 </section>
@@ -196,6 +238,9 @@
 
 <section class="slide">
   <h2>Expected growth happened</h2>
+  (12/17: 78,171,520 attempts)
+  (5/24: 458,822,952 attempts)
+  (also get number of students)
   insert graph here
 </section>
 
