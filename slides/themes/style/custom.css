@@ -8,3 +8,7 @@
   font-size: 18px;
   line-height: 2;
 }
+
+.slide.snowflake {
+  background: url(../../images/snowflake.png) no-repeat 150px 50px;
+}
