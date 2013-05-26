@@ -2,6 +2,20 @@
   font-size: 48px;
 }
 
+
+.slide.introductions .name,
+.slide.introductions .twitter-handle {
+	padding: 0;
+	margin: 0.25em 0;
+	text-align: center;
+	font-size: 3.5em;
+}
+.slide.introductions .twitter-handle {
+	font-size: 1.5em;
+	margin-top: -0.75em;
+  margin-bottom: 0.5em;
+}
+
 .slide.sharting {
   background: #DCC5E5;
   font-family: 'Apple Chancery';
