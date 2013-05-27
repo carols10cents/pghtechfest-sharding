@@ -3,16 +3,22 @@
 }
 
 
+li.current {
+  font-weight: bold;
+  color: #20cf24;
+  font-size: bigger;
+}
+
 .slide.introductions .name,
 .slide.introductions .twitter-handle {
-	padding: 0;
-	margin: 0.25em 0;
-	text-align: center;
-	font-size: 3.5em;
+  padding: 0;
+  margin: 0.25em 0;
+  text-align: center;
+  font-size: 3.5em;
 }
 .slide.introductions .twitter-handle {
-	font-size: 1.5em;
-	margin-top: -0.75em;
+  font-size: 1.5em;
+  margin-top: -0.75em;
   margin-bottom: 0.5em;
 }
 
@@ -25,4 +31,8 @@
 
 .slide.snowflake {
   background: url(../../images/snowflake.png) no-repeat 150px 50px;
+}
+
+div.notes {
+  display: none;
 }
