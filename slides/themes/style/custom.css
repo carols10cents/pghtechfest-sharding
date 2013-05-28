@@ -2,6 +2,11 @@
   font-size: 48px;
 }
 
+p.deck-status {
+  width: 125px;
+  text-align: right;
+  background: url(../../images/ttm-logo-watermark.png) no-repeat 0 2px;
+}
 
 li.current {
   font-weight: bold;
