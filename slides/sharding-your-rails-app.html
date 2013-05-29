@@ -273,8 +273,8 @@ about as much as I remember
 <section class="slide">
   <h2>Coordinating IDs</h2>
   <ul>
-    <li>Sequence-per-table won't work anymore</li>
-    <li>Solution: use sequence on master for all</li>
+    <li>Sequence-per-table: no more</li>
+    <li>Solution: all use sequence on master</li>
     <li>Another: GUIDs - no SPF, but not for humans</li>
   </ul>
 </section>
@@ -331,8 +331,8 @@ about as much as I remember
   <h2>Yep, it's difficult</h2>
   <ul>
    <li>Always pick a shard</li>
-   <li>All your tools and libraries assume one</li>
-   <li>Examples: <tt>rake</tt>, monitoring, logging</li>
+   <li>Infrastructure and tools assume one database</li>
+   <li>Examples: <tt>rake</tt>, monitoring, logging...</li>
   </ul>
   <div class="notes">
     do this FAST, no time!
