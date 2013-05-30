@@ -101,6 +101,7 @@ about as much as I remember
 <section class="slide">
   <h2>Limited update window</h2>
   <img src="images/christmas-stockings.png" />
+  talk here about standardized tests being in april
 </section>
 
 <section class="slide">
@@ -152,8 +153,8 @@ about as much as I remember
 <section class="slide">
   <h2>Sharding types</h2>
   <ul>
-    <li>Vertical: by function</li>
-    <li>Horizontal: by record</li>
+    <li>Vertical: by function, different schemas</li>
+    <li>Horizontal: by record, same schemas different data</li>
   </ul>
 </section>
 
@@ -174,14 +175,6 @@ about as much as I remember
 </section>
 
 <section class="slide">
-  <h2>Key features</h2>
-  <ul>
-    <li>Pain of JOINs felt in functional coupling</li>
-    <li>Splitting functionally: initial cost then cheap (in Rails)</li>
-</section>
-
-
-<section class="slide">
   <h2>Vertical: retail</h2>
   <img src="images/database_grid_functional_vertical_retail.png">
 </section>
@@ -199,17 +192,15 @@ about as much as I remember
 </section>
 
 <section class="slide">
-  <h2>Horizontal sharding</h2>
-  <img src="images/database_grid_record_horizontal_generic.png">
+  <h2>Key features</h2>
+  <ul>
+    <li>Pain of JOINs felt in functional coupling</li>
+    <li>Splitting functionally: initial cost then cheap (in Rails)</li>
 </section>
 
 <section class="slide">
-  <h2>Key features</h2>
-  <ul>
-    <li>Pain of JOINs felt in reporting</li>
-    <li>Sharding criteria: choose wisely</li>
-    <li>Examples: customer, geography (region, state), role</li>
-    <li>Beware the easy and obvious answer, read your data!</li>
+  <h2>Horizontal sharding</h2>
+  <img src="images/database_grid_record_horizontal_generic.png">
 </section>
 
 <section class="slide">
@@ -223,7 +214,20 @@ about as much as I remember
 </section>
 
 <section class="slide">
-  <h2>We did both!</h2>
+  <h2>Key features</h2>
+  <ul>
+    <li>Pain of JOINs felt in reporting</li>
+    <li>Sharding criteria: choose wisely</li>
+    <li>Examples: customer, geography (region, state), role</li>
+    <li>Beware the easy and obvious answer, read your data!</li>
+</section>
+
+<section class="slide">
+  <h1>So which did we pick?</h1>
+</section>
+
+<section class="slide">
+  <h2>Both!</h2>
   <img src="images/database_grid_vertical_and_horizontal_ttm.png">
 </section>
 
@@ -289,6 +293,7 @@ about as much as I remember
 <section class="slide">
   <h2>Shard associations</h2>
   <ul>
+    <li>Change as little code as possible!</li>
     <li>db-charmer has no support for associations</li>
     <li>OK: shard-to-master</li>
     <li>NOT: master-to-shard, shard-to-shard</li>
@@ -370,6 +375,7 @@ about as much as I remember
   <h2>Performance is better*</h2>
   <img src="images/post-sharding-performance.png" />
   <img src="images/post-sharding-throughput.png" />
+  add a january to march graph
 </section>
 
 <section class="slide">
