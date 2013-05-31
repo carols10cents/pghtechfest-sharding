@@ -91,6 +91,16 @@
   <h3>Standardized tests loom in April</h3>
 </section>
 
+<section class="slide">
+  <h2>Attempts Sep-Nov</h2>
+  <img src="images/attempts_sep-nov.png" />
+</section>
+
+<section class="slide">
+  <h2>...will it lead to this?</h2>
+  <img src="images/attempts_sep-nov-what_we_were_afraid_of.png" />
+</section>
+
 <!--
 
 Removing this. unless I can find hard numbers on how big the database
@@ -157,8 +167,8 @@ about as much as I remember
 <section class="slide">
   <h2>Sharding types</h2>
   <ul>
-    <li>Vertical: by function, different schemas</li>
-    <li>Horizontal: by record, same schemas different data</li>
+    <li>Vertical: by function</li>
+    <li>Horizontal: by record set</li>
   </ul>
 </section>
 
@@ -175,6 +185,9 @@ about as much as I remember
 
 <section class="slide">
   <h2>Vertical sharding</h2>
+  <ul>
+   <li>Different schemas + models on different databases</li>
+  </ul>
   <img src="images/database_grid_functional_vertical_generic.png">
 </section>
 
@@ -200,10 +213,15 @@ about as much as I remember
   <ul>
     <li>Pain of JOINs felt in functional coupling</li>
     <li>Splitting functionally: initial cost then cheap (in Rails)</li>
+    <li>Likely easier if your app is newer (coupling creep)</li>
+  </ul>
 </section>
 
 <section class="slide">
   <h2>Horizontal sharding</h2>
+  <ul>
+   <li>Same schemas + models on different databases</li>
+  </ul>
   <img src="images/database_grid_record_horizontal_generic.png">
 </section>
 
@@ -360,13 +378,13 @@ about as much as I remember
 </section>
 
 <section class="slide">
-  <h2>Growth happened</h2>
+  <h2>Growth happened...</h2>
   <img src="images/students_and_attempts_jan-apr.png" />
 </section>
 
 <section class="slide">
-  <h2>...as dramatic?</h2>
-  <img src="images/attempts_sep-apr.png" />
+  <h2>...as bad as feared?</h2>
+  <img src="images/attempts_sep-apr-what_we_were_afraid_of.png" />
 </section>
 
 <section class="slide">
@@ -378,7 +396,6 @@ about as much as I remember
   <h2>Performance is better*</h2>
   <img src="images/post-sharding-performance.png" />
   <img src="images/post-sharding-throughput.png" />
-  add a january to march graph
 </section>
 
 <section class="slide">
@@ -389,7 +406,8 @@ about as much as I remember
 <section class="slide">
   <h2>Building now: Data Warehouse</h2>
   <ul>
-    <li>Benefits: archiving data out of the write-heavy app, faster queries for reporting</li>
+    <li>Benefits: archiving data out of the write-heavy app</li>
+    <li>Dimensional schema: faster queries for reporting</li>
     <li>Taking time, so would not have helped in our window</li>
     <li>... but we need it anyway for better reports.</li>
   </ul>
